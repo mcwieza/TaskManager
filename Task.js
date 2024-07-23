@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const taskList = document.getElementById("task-list");
     const filterInput = document.getElementById("filter-input");
 
-    // Odczytywanie zadañ z localStorage po za³adowaniu strony
+    // Odczytaj zadania z localStorage po za³adowaniu strony
     loadTasks();
 
     taskForm.addEventListener("submit", (e) => {
@@ -37,13 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
         taskList.appendChild(li);
 
-        // Event listener dla przycisku usuwania zadania
         li.querySelector(".delete-button").addEventListener("click", () => {
             taskList.removeChild(li);
             saveTasks();  // Zapisz zadania po usuniêciu
         });
 
-        // Event listener dla przycisku edytowania zadania
         li.querySelector(".edit-button").addEventListener("click", () => {
             taskInput.value = task;
             dateInput.value = date;
@@ -80,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         taskList.innerHTML = "";
         tasks.forEach((task) => taskList.appendChild(task));
-        saveTasks();  // Zapisz zadania po sortowaniu (data)
+        saveTasks();  // Zapisz zadania po sortowaniu
     }
 
     function filterTasks(query) {
@@ -94,15 +92,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    // funkcja pobierzPDF
+
     function downloadPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-
-        // Dodaj czcionkê Open Sans obs³uguj¹c¹ polskie znaki
-        doc.addFileToVFS("OpenSans-Regular.ttf", openSansRegular);
-        doc.addFont("OpenSans-Regular.ttf", "OpenSans", "normal");
-        doc.setFont("OpenSans");
 
         doc.setFontSize(18);
         doc.text("Lista zadañ", 105, 20, null, null, "center");
@@ -134,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         doc.save("task-list.pdf");
     }
-    //funkcja pobierzJSON
+
     function downloadJSON() {
         const tasks = Array.from(taskList.getElementsByTagName("li")).map((task) => {
             const taskText = task.getElementsByTagName("span")[0].innerText;
@@ -159,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.removeChild(a);
     }
 
-    // Zapisywanie zadania do localStorage
+    // Zapisz zadania do localStorage
     function saveTasks() {
         const tasks = Array.from(taskList.getElementsByTagName("li")).map((task) => {
             return {
@@ -178,7 +171,4 @@ document.addEventListener("DOMContentLoaded", () => {
             addTask(task.task, task.date, task.status);
         });
     }
-
-    // Dodawanie czcionkê OpenSans (utf-8) do pliku VFS
-    const openSansRegular = "AAEAAAALAIAAAwAwR1NVQ1OIFKoAAAHsAAAAYGNtYXAWIx+3AAABkAAAAbpjdnQgABj8wAAAmwAAAxkZnBnbVX+cAAAAMgAAABtGZw9u/sDrMwAAAzAAAAAgZ2x5ZqDdJZwAAAN4AAACiWhkcGGC2FzQAAAP8AAAOI2hlYWT/MAGJAAAD/AAAADZoaGVhBR8GogAAAOwAAAAkaG10eDhc0tEAAAD9AAAADGxvY2EAMgAUAAAD/AAAABRtYXhwAAGUAAAADwAAAAgbmFtZcAU1gAAAPAAAADUnBvc3QAAwAAAAAIAAAAcHJlcAGM/wAABtQAAAACAAoAAwEAAhYEBQAAAUQDAAAcAAEAAAAAAAIAAQAAAAAAAAAACQAAAAIAAQAAAAAAAAAAAAAAAAAAAAEAAAACAAMAAQAAARoAAgAAAR4AAgAAAhoAAQAAAAEAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAABAAACTG1AAAACAwBK//8AAf//AAH/5wAB/+sD3QQAAAAJAAAABEAAAAAEAAAAAAAAAAAAAAAAAAAIAHQAIAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
 });
